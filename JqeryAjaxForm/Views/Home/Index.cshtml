@@ -1,0 +1,189 @@
+﻿@model JqeryAjaxForm.Models.Register
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/StyleSheet1.css" type="text/css" />
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Display")',
+            data: 2,
+           
+            async: false,
+            success: function (data) {
+                var rows;
+                
+                $.each(data, function (i, item){
+                    rows += "<tr>"
+                            + "<td >" + item.Id + "</td>"
+                            + "<td>" + item.Name + "</td>"
+                            + "<td  >" + item.Location + "</td>"
+                            + "<td>" + item.PhoneNumber + "</td>"
+                            + "<td>" + item.Gender + "</td>"
+                             + "<td>" + item.file_name + "</td>"
+                       + "</tr>";
+                });
+                $('#tblProducts').append(rows);
+            }
+        })
+
+
+    });
+    function Update() {
+        var name = $("#Name").val();
+        var pass = $('#Password').val();
+        var conpass = $('#ConfirmPassword').val();
+        var gender = $('#Gender').val();
+        var phno = $('#PhoneNumber').val();
+        var location = $('#Location').val();
+        var datas = [{ "Name": name, "Password": pass, "ConfirmPassword": conpass, "Gender": gender, "PhoneNumber": phno, "Location": location }];
+        var insert_data = JSON.stringify({ "datas": datas });
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("Update","Home")',
+            data: insert_data,
+            success: function (data) {
+                var rows;
+
+                $.each(data, function (i, item) {
+                    rows += "<tr>"
+                              + "<td >" + item.Id + "</td>"
+                              + "<td>" + item.Name + "</td>"
+                              + "<td  >" + item.Location + "</td>"
+                              + "<td>" + item.PhoneNumber + "</td>"
+                              + "<td>" + item.Gender + "</td>"
+                               + "<td>" + item.F_Name + "</td>"
+                         + "</tr>";
+                });
+                $('#tblProducts').append(rows);
+            }
+
+        });
+
+    }
+    function PagerClick(index) {
+        alert("Boom");
+        document.getElementById("hfCurrentPageIndex").value = index;
+        $('#form1').submit();
+
+    }
+
+    </script>
+<form id="form">
+   
+    <fieldset>
+
+        <legend>InsertRecord</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            <span id="reqTxtName" class="reqError" style="color:red"></span><br>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.Password)
+            <span id="reqTxtName1" class="reqError" style="color:red"></span><br>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.ConfirmPassword)
+            <span id="reqTxtName2" class="reqError" style="color:red"></span><br>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Gender)
+        </div>
+        <div class="editor-field">
+            Male  : @Html.RadioButton("Gender", "Male")
+            Female: @Html.RadioButton("Gender", "Female")
+            <span id="reqTxtName4" class="reqError" style="color:red"></span><br>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PhoneNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PhoneNumber)
+            <span id="reqTxtName5" class="reqError" style="color:red"></span><br>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location)
+            <span id="reqTxtName6" class="reqError" style="color:red"></span><br>
+        </div>
+        <div class="editor-label">
+            @Html.Label("Upload File")
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("file", "", new { type = "file" })
+            <span id="reqTxtName3" class="reqError" style="color:red"></span><br>
+        </div>
+        <p>
+            <input type="button" id="login" value="Create" onclick="Update();" />
+            <button>@Html.ActionLink("Back to List", "display", null, new { style = "text-decoration:none; color:black;" })</button>
+        </p>
+
+    </fieldset>
+ 
+
+ 
+
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            @for (int i = 1; i <=Model.pagecount; i++)
+            {
+                <td>
+                    @if (i != Model.currentIndex)
+                    {
+                        <a href="javascript:PagerClick(@i);">@i</a>
+                    }
+                    else
+                    {
+                        <span>@i</span>
+                    }
+                </td>
+            }
+        </tr>
+    </table>
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+    
+</form>
+
+
+<form id="form1">
+    <table id="tblProducts">
+
+        <thead>
+
+            <tr class="headings" style="background-color:#4495d1;">
+
+                <th>Id</th>
+
+                <th>Name</th>
+
+                <th>Location</th>
+
+                <th>Phoneno</th>
+
+                <th>Gender</th>
+
+                <th>FileName</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</form>

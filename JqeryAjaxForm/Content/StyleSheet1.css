@@ -1,0 +1,63 @@
+﻿body {
+}
+fieldset
+{
+
+  max-width:500px;
+  padding:16px;
+   margin-left:200px;
+  margin-top:10px;
+  background-color:antiquewhite;
+ overflow:auto;
+}
+#btn {
+  background-color:#0047d480;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration:none;
+}
+#btn:hover {
+  background-color: RoyalBlue;
+}
+p{
+    backface-visibility:visible;
+}
+
+legend
+{
+  margin-bottom:0px;
+  margin-left:16px;
+  text-align:center;
+}
+div{
+      margin-left:160px;
+}
+table, td, th {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+  width: 70%;
+  overflow:scroll;
+}
+
+ th {
+  height: 50px;
+  background-color:lightsteelblue;
+}
+ tr:nth-of-type(even)
+{
+    background-color:lightgrey;
+}
+tr:nth-of-type(odd)
+{
+    background-color:lightgoldenrodyellow;
+}
+#search table{
+border:none;
+
+}
